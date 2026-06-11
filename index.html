@@ -19,43 +19,61 @@
         </button>
     </div>
     <h2 class="text-xl font-bold text-gray-800 mb-4">タスク一覧</h2>
-    <ul id="todoList" class="space-y-2"></ul>
+    <ul class="card space-y-2"></ul>
   </section>
+
 </body>
 <script>
 const todoInput = document.querySelector('#todoInput');
 const addBtn = document.querySelector('#addBtn');
-const todoList = document.querySelector('#todoList');
+const todoList = document.querySelector('.card');
+const undoBtn = document.querySelector('#undoBtn');
+
+
+
 
 addBtn.addEventListener("click", () => {
     const task = todoInput.value;
-     if (task ===""){
-        retern;
-     }
+    if (task === "") {
+        return;
+    }
 
-     const item = document.createElement("li");
-        item.className = "flex items-center justify-between bg-gray-50 rounded px-3 py-2";
+    const item = document.createElement("li");
+    item.className = "flex items-center justify-between bg-gray-50 rounded px-3 py-2";
+    
     const span = document.createElement("span");
-        span.textContent = task;
+    span.textContent = task;
+    
     const doneBtn = document.createElement("button");
-        doneBtn.textContent = "完了";
-        doneBtn.className = "text-lg text-gray-300 px-2 font-bold hover:text-green-500";
+    doneBtn.textContent = "完了";
+    doneBtn.className = "text-lg text-gray-300 px-2 font-bold hover:text-green-500 transition";
+    
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "削除";
+    deleteBtn.className = "text-lg text-gray-500 px-2 font-bold hover:text-red-600 transition";
     
     doneBtn.addEventListener("click", () => {
-          span.classList.toggle("line-through");
-          span.classList.add("text-gray-500")
-          doneBtn.classList.remove("text-gray-300")
-          doneBtn.classList.toggle("bg-green-600");
-          doneBtn.classList.toggle("text-white");
-          doneBtn.classList.toggle("hover:text-green-500");
-          
-        });
+        span.classList.toggle("line-through");
+        span.classList.toggle("text-gray-500");
+        doneBtn.classList.toggle("text-gray-300");
+        doneBtn.classList.toggle("bg-green-600");
+        doneBtn.classList.toggle("text-white");
+        doneBtn.classList.toggle("hover:text-green-500");
+    });
+    
+    deleteBtn.addEventListener("click", () => {
+        // アイテムを隠す
+        item.classList.add("hidden"); 
+        lastDeletedItem = item;
+        showUndoNotification(task);
+    });
 
     item.appendChild(span);
     item.appendChild(doneBtn);
+    item.appendChild(deleteBtn);
     todoList.appendChild(item);
     
-    
-      });
+    todoInput.value = "";
+});
 </script>
 </html>
